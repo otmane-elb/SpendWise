@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../utils/routes/app_routes.dart';
 import '../themes/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -91,14 +94,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   toNextScreen() async {
-    /* final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isFirstInstall = prefs.getBool("first_install");
-    if (isFirstInstall != false) {
-      Get.offAndToNamed(AppRoutes.onboarding);
-      await prefs.setBool("first_install", false);
+    var box = Hive.box('isFirst');
+    bool? isFirstTime = box.get('isFirstTime', defaultValue: true);
+    if (isFirstTime != false) {
+      context.replaceNamed(AppRoutes.getStarted);
+      await box.put('isFirstTime', false);
     } else {
-      Get.offAndToNamed(AppRoutes.navScreen);
+      context.replaceNamed(AppRoutes.home);
     }
-    */
   }
 }

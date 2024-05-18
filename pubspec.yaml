@@ -40,7 +40,8 @@ dependencies:
   freezed_annotation: ^2.4.1
   build_runner: ^2.4.9
   go_router: ^14.1.2
-
+  hive_flutter: ^1.1.0
+  hive_cache_manager: ^0.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
