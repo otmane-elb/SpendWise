@@ -9,6 +9,10 @@ class ThemesController {
       textTheme: TextTheme(
         titleMedium: GoogleFonts.inter().copyWith(
             fontSize: 50, color: AppColors.white, fontWeight: FontWeight.bold),
+        titleSmall: GoogleFonts.inter().copyWith(
+            fontSize: 36,
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.bold),
       ),
       scaffoldBackgroundColor: AppColors.white,
       colorScheme: ColorScheme.fromSeed(
