@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:spendwise/utils/routes/app_routes.dart';
+import 'package:spendwise/core/routes/app_routes.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
 import 'package:spendwise/views/themes/app_images.dart';
 import 'package:spendwise/views/widgets/custom_button.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../utils/routes/app_routes.dart';
+import '../../core/routes/app_routes.dart';
 import '../themes/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {

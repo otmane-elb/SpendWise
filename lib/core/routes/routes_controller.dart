@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:spendwise/utils/routes/app_routes.dart';
+import 'package:spendwise/core/routes/app_routes.dart';
+import 'package:spendwise/views/add_Transaction/add_trasaction.dart';
 import 'package:spendwise/views/getstared/get_started_screen.dart';
 import 'package:spendwise/views/splash/splash_screen.dart';
 
@@ -27,6 +28,13 @@ final GoRouter router = GoRouter(
           name: AppRoutes.getStarted,
           builder: (BuildContext context, GoRouterState state) {
             return const GetStartedScreen();
+          },
+        ),
+        GoRoute(
+          path: AppRoutes.addTransaction,
+          name: AppRoutes.addTransaction,
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddTransaction();
           },
         ),
       ],
