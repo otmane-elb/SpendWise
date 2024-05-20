@@ -46,19 +46,26 @@ class CustomTextFormField extends StatefulWidget {
   final bool isDate;
 
   @override
-  _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
+  CustomTextFormFieldState createState() => CustomTextFormFieldState();
 }
 
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
+class CustomTextFormFieldState extends State<CustomTextFormField> {
   late TextEditingController _controller;
-  DateTime _selectedDate = DateTime.now();
+  DateTime? _selectedDate;
 
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
     if (widget.isDate) {
-      _controller.text = _formatDate(_selectedDate);
+      if (widget.initialValue != null) {
+        _selectedDate = DateFormat('EEE, dd MMM yyyy')
+            .parse(widget.initialValue!); // Change 1: Parse initial value
+        _controller.text = widget.initialValue!;
+      } else {
+        _selectedDate = DateTime.now();
+        _controller.text = _formatDate(_selectedDate!);
+      }
     } else if (widget.initialValue != null) {
       _controller.text = widget.initialValue!;
     }
@@ -73,18 +80,20 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       context: context,
       builder: (_) => Container(
         height: 250,
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 180,
               child: CupertinoDatePicker(
-                initialDateTime: _selectedDate,
+                initialDateTime:
+                    _selectedDate, // Change 2: Use _selectedDate as initial date
                 mode: CupertinoDatePickerMode.date,
                 onDateTimeChanged: (DateTime newDate) {
                   setState(() {
-                    _selectedDate = newDate;
-                    _controller.text = _formatDate(_selectedDate);
+                    _selectedDate = newDate; // Change 3: Update _selectedDate
+                    _controller.text = _formatDate(
+                        _selectedDate!); // Change 4: Update controller text
                     if (widget.onChanged != null) {
                       widget.onChanged!(_controller.text);
                     }
@@ -93,8 +102,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               ),
             ),
             CupertinoButton(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+              onPressed: () {
+                if (widget.controller != null) {
+                  widget.controller!.text = _controller.text;
+                }
+                Navigator.of(context).pop();
+              },
             )
           ],
         ),

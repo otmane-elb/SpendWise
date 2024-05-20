@@ -20,14 +20,19 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Transaction {
+  @HiveField(0)
   String get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get title => throw _privateConstructorUsedError;
+  @HiveField(2)
   DateTime get date => throw _privateConstructorUsedError;
-  String? get icon =>
-      throw _privateConstructorUsedError; // Use a String to represent the icon path or image path
-  String? get image =>
-      throw _privateConstructorUsedError; // Optional: can use either icon or image
+  @HiveField(3)
+  String? get icon => throw _privateConstructorUsedError;
+  @HiveField(4)
+  String? get image => throw _privateConstructorUsedError;
+  @HiveField(5)
   bool get isExpense => throw _privateConstructorUsedError;
+  @HiveField(6)
   double get value => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,13 +48,13 @@ abstract class $TransactionCopyWith<$Res> {
       _$TransactionCopyWithImpl<$Res, Transaction>;
   @useResult
   $Res call(
-      {String id,
-      String title,
-      DateTime date,
-      String? icon,
-      String? image,
-      bool isExpense,
-      double value});
+      {@HiveField(0) String id,
+      @HiveField(1) String title,
+      @HiveField(2) DateTime date,
+      @HiveField(3) String? icon,
+      @HiveField(4) String? image,
+      @HiveField(5) bool isExpense,
+      @HiveField(6) double value});
 }
 
 /// @nodoc
@@ -115,13 +120,13 @@ abstract class _$$TransactionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String title,
-      DateTime date,
-      String? icon,
-      String? image,
-      bool isExpense,
-      double value});
+      {@HiveField(0) String id,
+      @HiveField(1) String title,
+      @HiveField(2) DateTime date,
+      @HiveField(3) String? icon,
+      @HiveField(4) String? image,
+      @HiveField(5) bool isExpense,
+      @HiveField(6) double value});
 }
 
 /// @nodoc
@@ -178,34 +183,40 @@ class __$$TransactionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
+@HiveType(typeId: 0, adapterName: 'TransactionAdapter')
 class _$TransactionImpl implements _Transaction {
   const _$TransactionImpl(
-      {required this.id,
-      required this.title,
-      required this.date,
-      this.icon,
-      this.image,
-      required this.isExpense,
-      required this.value});
+      {@HiveField(0) required this.id,
+      @HiveField(1) required this.title,
+      @HiveField(2) required this.date,
+      @HiveField(3) this.icon,
+      @HiveField(4) this.image,
+      @HiveField(5) required this.isExpense,
+      @HiveField(6) required this.value});
 
   factory _$TransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String id;
   @override
+  @HiveField(1)
   final String title;
   @override
+  @HiveField(2)
   final DateTime date;
   @override
+  @HiveField(3)
   final String? icon;
-// Use a String to represent the icon path or image path
   @override
+  @HiveField(4)
   final String? image;
-// Optional: can use either icon or image
   @override
+  @HiveField(5)
   final bool isExpense;
   @override
+  @HiveField(6)
   final double value;
 
   @override
@@ -249,30 +260,37 @@ class _$TransactionImpl implements _Transaction {
 
 abstract class _Transaction implements Transaction {
   const factory _Transaction(
-      {required final String id,
-      required final String title,
-      required final DateTime date,
-      final String? icon,
-      final String? image,
-      required final bool isExpense,
-      required final double value}) = _$TransactionImpl;
+      {@HiveField(0) required final String id,
+      @HiveField(1) required final String title,
+      @HiveField(2) required final DateTime date,
+      @HiveField(3) final String? icon,
+      @HiveField(4) final String? image,
+      @HiveField(5) required final bool isExpense,
+      @HiveField(6) required final double value}) = _$TransactionImpl;
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
       _$TransactionImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get id;
   @override
+  @HiveField(1)
   String get title;
   @override
+  @HiveField(2)
   DateTime get date;
   @override
+  @HiveField(3)
   String? get icon;
-  @override // Use a String to represent the icon path or image path
+  @override
+  @HiveField(4)
   String? get image;
-  @override // Optional: can use either icon or image
+  @override
+  @HiveField(5)
   bool get isExpense;
   @override
+  @HiveField(6)
   double get value;
   @override
   @JsonKey(ignore: true)

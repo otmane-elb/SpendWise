@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:spendwise/views/nav_bar/nav_bar.dart';
 import 'package:spendwise/views/profile/profile_screen.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
-import '../../core/providers/homepage/home_provider.dart';
 import '../../core/providers/navigation_provider.dart';
+import '../../core/providers/transaction_provider.dart';
 import 'widgets/credit_card.dart';
 import 'widgets/custom_curved_container.dart';
-import 'widgets/transaction_widget.dart';
+import 'widgets/transactions_history.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -16,8 +16,8 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final height = MediaQuery.of(context).size.height;
-    final homeState = ref.watch(homeStateNotifierProvider);
     final selectedIndex = ref.watch(navigationProvider);
+    final transactions = ref.watch(transactionProvider);
 
     return Scaffold(
       body: IndexedStack(
@@ -32,7 +32,6 @@ class HomeScreen extends ConsumerWidget {
                     name: 'Otmane Elbaghazaoui',
                   ),
                   Positioned.fill(
-                    bottom: 0,
                     child: CreditCard(
                       height: height,
                       balance: 2548,
@@ -42,37 +41,20 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Transaction History',
-                            style: Theme.of(context).textTheme.titleLarge),
-                        Text(
-                          'See All',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: AppColors.greySeeAll),
-                        ),
-                      ],
-                    ),
-                    const TransactionWidget(),
-                  ],
-                ),
-              )
+              TransactionsHistory(
+                transactions: transactions,
+                onDismissed: (transaction) {
+                  ref
+                      .read(transactionProvider.notifier)
+                      .removeTransaction(transaction);
+                },
+              ),
             ],
           ),
           const Center(
             child: Text('Another Page'),
           ),
-          const ProfileScreen()
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: const NavBar(),

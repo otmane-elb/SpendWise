@@ -41,7 +41,7 @@ class CreditCard extends StatelessWidget {
               )
             ],
           ),
-          Text('\$${FormatCurrency().formatCurrency(balance)}',
+          Text('\$${FormatStyles().formatCurrency(balance)}',
               style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(
             height: 10,
@@ -65,7 +65,7 @@ class CreditCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.labelSmall)
                     ],
                   ),
-                  Text('\$${FormatCurrency().formatCurrency(income)}',
+                  Text('\$${FormatStyles().formatCurrency(income)}',
                       style: Theme.of(context).textTheme.labelLarge),
                 ],
               ),
@@ -85,7 +85,7 @@ class CreditCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.labelSmall),
                     ],
                   ),
-                  Text('\$${FormatCurrency().formatCurrency(expense)}',
+                  Text('\$${FormatStyles().formatCurrency(expense)}',
                       style: Theme.of(context).textTheme.labelLarge),
                 ],
               ),

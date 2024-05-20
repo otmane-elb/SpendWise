@@ -56,7 +56,7 @@ class CustomCurvedContainer extends StatelessWidget {
                         child: IconButton(
                           onPressed: () {
                             if (context.canPop()) context.replaceNamed('home');
-                            ;
+                            
                           },
                           icon: const Icon(
                             Icons.arrow_back_ios,

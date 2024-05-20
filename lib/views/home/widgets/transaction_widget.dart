@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:spendwise/core/models/transaction_model/transaction_model.dart';
+import 'package:spendwise/utils/extentions/format_currency.dart';
 
 import '../../themes/app_colors.dart';
 
 class TransactionWidget extends StatelessWidget {
   const TransactionWidget({
     super.key,
-    this.isexpense = true,
+    required this.transaction,
   });
-  final bool isexpense;
+  final Transaction transaction;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         children: [
-          const Icon(Icons.local_grocery_store),
+          Image.network(
+            'https://cdn.icon-icons.com/icons2/3053/PNG/512/netflix_macos_bigsur_icon_189917.png',
+            scale: 6,
+          ),
           const SizedBox(
             width: 20,
           ),
           Column(
             children: [
-              Text('Grocery', style: Theme.of(context).textTheme.titleLarge),
+              Text(transaction.title,
+                  style: Theme.of(context).textTheme.titleLarge),
               Text(
-                'Today',
+                FormatStyles().formatDate(transaction.date),
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!
@@ -31,13 +37,21 @@ class TransactionWidget extends StatelessWidget {
             ],
           ),
           const Expanded(child: SizedBox()),
-          Text(
-            '+\$85.00',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: AppColors.green),
-          )
+          transaction.isExpense
+              ? Text(
+                  '-\$${FormatStyles().formatCurrency(transaction.value)}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: AppColors.red),
+                )
+              : Text(
+                  '+\$${FormatStyles().formatCurrency(transaction.value)}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: AppColors.green),
+                )
         ],
       ),
     );

@@ -1,19 +1,35 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:developer';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../models/transaction_model/transaction_model.dart';
 
-class TransactionNotifier extends StateNotifier<List<Transaction>> {
-  TransactionNotifier() : super([]);
-
-  void addTransaction(Transaction transaction) {
-    state = [...state, transaction];
+class TransactionStateNotifier extends StateNotifier<List<Transaction>> {
+  TransactionStateNotifier() : super([]) {
+    _loadTransactions();
   }
 
-  void removeTransaction(String id) {
-    state = state.where((transaction) => transaction.id != id).toList();
+  void _loadTransactions() async {
+    final box = await Hive.openBox<Transaction>('transactions');
+    state = box.values.toList();
+  }
+
+  void addTransaction(Transaction transaction) async {
+    final box = await Hive.openBox<Transaction>('transactions');
+    await box.put(transaction.id, transaction);
+    state = box.values.toList();
+    log('${transaction.id} Transaction added successfully');
+  }
+
+  void removeTransaction(Transaction transaction) async {
+    final box = await Hive.openBox<Transaction>('transactions');
+    await box.delete(transaction.id);
+    state = box.values.toList();
+    log('${transaction.id} Transaction deleted successfully');
   }
 }
 
-final transactionProvider = StateNotifierProvider<TransactionNotifier, List<Transaction>>((ref) {
-  return TransactionNotifier();
+final transactionProvider =
+    StateNotifierProvider<TransactionStateNotifier, List<Transaction>>((ref) {
+  return TransactionStateNotifier();
 });
