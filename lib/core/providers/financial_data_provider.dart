@@ -1,26 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spendwise/core/providers/transaction_provider.dart';
 import '../models/financial_data_model/financial_data.dart';
-
-
+import '../models/transaction_model/transaction_model.dart';
 
 class FinancialDataNotifier extends StateNotifier<FinancialData> {
-  FinancialDataNotifier()
-      : super(const FinancialData(balance: 0, income: 0, expense: 0));
-
-  void updateBalance(double newBalance) {
-    state = state.copyWith(balance: newBalance);
+  FinancialDataNotifier(List<Transaction> transactions)
+      : super(const FinancialData(balance: 0, income: 0, expense: 0)) {
+    _calculateFinancialData(transactions);
   }
 
-  void updateIncome(double newIncome) {
-    state = state.copyWith(income: newIncome);
+  void _calculateFinancialData(List<Transaction> transactions) {
+    double income = 0;
+    double expense = 0;
+
+    for (var transaction in transactions) {
+      if (transaction.isExpense) {
+        expense += transaction.value;
+      } else {
+        income += transaction.value;
+      }
+    }
+
+    double balance = income - expense;
+
+    state = state.copyWith(balance: balance, income: income, expense: expense);
   }
 
-  void updateExpense(double newExpense) {
-    state = state.copyWith(expense: newExpense);
+  void updateTransactions(List<Transaction> transactions) {
+    _calculateFinancialData(transactions);
   }
 }
 
-final financialDataProvider =
-    StateNotifierProvider<FinancialDataNotifier, FinancialData>((ref) {
-  return FinancialDataNotifier();
+final financialDataProvider = StateNotifierProvider<FinancialDataNotifier, FinancialData>((ref) {
+  final transactions = ref.watch(transactionProvider);
+  return FinancialDataNotifier(transactions);
 });

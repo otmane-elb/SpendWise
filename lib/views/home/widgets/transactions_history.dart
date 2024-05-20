@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:spendwise/views/home/widgets/transaction_widget.dart';
 import '../../../core/models/transaction_model/transaction_model.dart';
 import '../../themes/app_colors.dart';
+import '../../widgets/confirmation_popup.dart';
 
-class TransactionsHistory extends StatelessWidget {
-  const TransactionsHistory({
+class TransactionHistory extends StatelessWidget {
+  const TransactionHistory({
     super.key,
     required this.transactions,
     required this.onDismissed,
@@ -45,8 +46,20 @@ class TransactionsHistory extends StatelessWidget {
                   return Dismissible(
                     key: Key(transaction.id),
                     direction: DismissDirection.endToStart,
-                    onDismissed: (direction) {
-                      onDismissed(transaction);
+                    confirmDismiss: (direction) async {
+                      return await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConfirmationDialog(
+                            title: 'Delete confirmation',
+                            content:
+                                'Are you sure you want to delete this transaction?',
+                            onConfirm: () {
+                              onDismissed(transaction);
+                            },
+                          );
+                        },
+                      );
                     },
                     background: Container(
                       color: Colors.red,

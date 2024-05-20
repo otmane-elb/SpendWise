@@ -16,14 +16,21 @@ class TransactionWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         children: [
-          Image.network(
-            'https://cdn.icon-icons.com/icons2/3053/PNG/512/netflix_macos_bigsur_icon_189917.png',
-            scale: 6,
+          Container(
+            height: 75,
+            width: 75,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: NetworkImage(
+                'https://cdn.icon-icons.com/icons2/3053/PNG/512/netflix_macos_bigsur_icon_189917.png',
+              ),
+            )),
           ),
           const SizedBox(
             width: 20,
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(transaction.title,
                   style: Theme.of(context).textTheme.titleLarge),

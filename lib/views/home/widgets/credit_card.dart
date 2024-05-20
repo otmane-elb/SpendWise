@@ -41,8 +41,9 @@ class CreditCard extends StatelessWidget {
               )
             ],
           ),
-          Text('\$${FormatStyles().formatCurrency(balance)}',
-              style: Theme.of(context).textTheme.bodyLarge),
+          Text('\$${FormatStyles().formatCurrency(balance)} ',
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: balance < 0 ? AppColors.red : AppColors.white)),
           const SizedBox(
             height: 10,
           ),

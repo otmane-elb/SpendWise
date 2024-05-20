@@ -14,7 +14,7 @@ class ThemesController {
             color: AppColors.primaryColor,
             fontWeight: FontWeight.bold),
         bodyLarge: GoogleFonts.inter().copyWith(
-            fontSize: 22, color: AppColors.white, fontWeight: FontWeight.bold),
+            fontSize: 25, color: AppColors.white, fontWeight: FontWeight.bold),
         bodyMedium: GoogleFonts.inter().copyWith(
             fontSize: 14, color: AppColors.white, fontWeight: FontWeight.w500),
         labelLarge: GoogleFonts.inter().copyWith(

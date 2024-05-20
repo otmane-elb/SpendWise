@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spendwise/views/history/history_screen.dart';
 import 'package:spendwise/views/nav_bar/nav_bar.dart';
 import 'package:spendwise/views/profile/profile_screen.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
+import '../../core/models/transaction_model/transaction_model.dart';
+import '../../core/providers/financial_data_provider.dart';
 import '../../core/providers/navigation_provider.dart';
 import '../../core/providers/transaction_provider.dart';
 import 'widgets/credit_card.dart';
@@ -18,6 +21,11 @@ class HomeScreen extends ConsumerWidget {
     final height = MediaQuery.of(context).size.height;
     final selectedIndex = ref.watch(navigationProvider);
     final transactions = ref.watch(transactionProvider);
+    final financialData = ref.watch(financialDataProvider);
+
+    ref.listen<List<Transaction>>(transactionProvider, (previous, next) {
+      ref.read(financialDataProvider.notifier).updateTransactions(next);
+    });
 
     return Scaffold(
       body: IndexedStack(
@@ -34,14 +42,14 @@ class HomeScreen extends ConsumerWidget {
                   Positioned.fill(
                     child: CreditCard(
                       height: height,
-                      balance: 2548,
-                      income: 1840,
-                      expense: 284,
+                      balance: financialData.balance,
+                      income: financialData.income,
+                      expense: financialData.expense,
                     ),
                   ),
                 ],
               ),
-              TransactionsHistory(
+              TransactionHistory(
                 transactions: transactions,
                 onDismissed: (transaction) {
                   ref
@@ -51,8 +59,13 @@ class HomeScreen extends ConsumerWidget {
               ),
             ],
           ),
-          const Center(
-            child: Text('Another Page'),
+          HistoryScreen(
+            transactions: transactions,
+            onDismissed: (transaction) {
+              ref
+                  .read(transactionProvider.notifier)
+                  .removeTransaction(transaction);
+            },
           ),
           const ProfileScreen(),
         ],

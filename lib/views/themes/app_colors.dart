@@ -13,5 +13,5 @@ class AppColors {
   static const Color beige = Color(0xFFD0E5E4);
   static const Color greySeeAll = Color(0xFF666666);
   static const Color green = Color(0xFF25A969);
-  static const Color red = Color(0xFFF95B51);
+  static const Color red = Color.fromARGB(255, 248, 26, 10);
 }
