@@ -37,7 +37,7 @@ class GetStartedScreen extends StatelessWidget {
               height: 67,
               text: 'Get Started',
               onPressed: () {
-                context.goNamed(AppRoutes.home);
+                context.pushNamed(AppRoutes.home);
               },
             ),
           )

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spendwise/views/home/widgets/transaction_widget.dart';
 import '../../../core/models/transaction_model/transaction_model.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../themes/app_colors.dart';
 import '../../widgets/confirmation_popup.dart';
 
@@ -9,10 +11,12 @@ class TransactionHistory extends StatelessWidget {
     super.key,
     required this.transactions,
     required this.onDismissed,
+    this.onTap,
   });
 
   final List<Transaction> transactions;
   final Function(Transaction) onDismissed;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class TransactionHistory extends StatelessWidget {
                 Text('Transaction History',
                     style: Theme.of(context).textTheme.titleLarge),
                 Text(
-                  'See All',
+                  '',
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -70,7 +74,12 @@ class TransactionHistory extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    child: TransactionWidget(transaction: transaction),
+                    child: TransactionWidget(
+                        onTap: () {
+                          context.pushNamed(AppRoutes.transactionDetails,
+                              pathParameters: {'id': transaction.id});
+                        },
+                        transaction: transaction),
                   );
                 },
               ),

@@ -55,7 +55,7 @@ class CreditCard extends StatelessWidget {
                   Row(
                     children: [
                       const FaIcon(
-                        FontAwesomeIcons.circleArrowDown,
+                        FontAwesomeIcons.circleArrowUp,
                         size: 15,
                         color: AppColors.white,
                       ),
@@ -75,7 +75,7 @@ class CreditCard extends StatelessWidget {
                   Row(
                     children: [
                       const FaIcon(
-                        FontAwesomeIcons.circleArrowUp,
+                        FontAwesomeIcons.circleArrowDown,
                         size: 15,
                         color: AppColors.white,
                       ),

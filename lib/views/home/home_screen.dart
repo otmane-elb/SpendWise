@@ -79,7 +79,7 @@ class HomeScreen extends ConsumerWidget {
             backgroundColor: AppColors.primaryLightColor,
             shape: const CircleBorder(),
             onPressed: () {
-              context.goNamed('addTransaction');
+              context.pushNamed('addTransaction');
             },
             child: const Icon(
               Icons.add,

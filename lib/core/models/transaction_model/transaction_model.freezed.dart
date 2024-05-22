@@ -28,8 +28,9 @@ mixin _$Transaction {
   DateTime get date => throw _privateConstructorUsedError;
   @HiveField(3)
   String? get icon => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
   @HiveField(4)
-  String? get image => throw _privateConstructorUsedError;
+  Uint8List? get image => throw _privateConstructorUsedError;
   @HiveField(5)
   bool get isExpense => throw _privateConstructorUsedError;
   @HiveField(6)
@@ -52,7 +53,7 @@ abstract class $TransactionCopyWith<$Res> {
       @HiveField(1) String title,
       @HiveField(2) DateTime date,
       @HiveField(3) String? icon,
-      @HiveField(4) String? image,
+      @Uint8ListConverter() @HiveField(4) Uint8List? image,
       @HiveField(5) bool isExpense,
       @HiveField(6) double value});
 }
@@ -98,7 +99,7 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Uint8List?,
       isExpense: null == isExpense
           ? _value.isExpense
           : isExpense // ignore: cast_nullable_to_non_nullable
@@ -124,7 +125,7 @@ abstract class _$$TransactionImplCopyWith<$Res>
       @HiveField(1) String title,
       @HiveField(2) DateTime date,
       @HiveField(3) String? icon,
-      @HiveField(4) String? image,
+      @Uint8ListConverter() @HiveField(4) Uint8List? image,
       @HiveField(5) bool isExpense,
       @HiveField(6) double value});
 }
@@ -168,7 +169,7 @@ class __$$TransactionImplCopyWithImpl<$Res>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Uint8List?,
       isExpense: null == isExpense
           ? _value.isExpense
           : isExpense // ignore: cast_nullable_to_non_nullable
@@ -190,7 +191,7 @@ class _$TransactionImpl implements _Transaction {
       @HiveField(1) required this.title,
       @HiveField(2) required this.date,
       @HiveField(3) this.icon,
-      @HiveField(4) this.image,
+      @Uint8ListConverter() @HiveField(4) this.image,
       @HiveField(5) required this.isExpense,
       @HiveField(6) required this.value});
 
@@ -210,8 +211,9 @@ class _$TransactionImpl implements _Transaction {
   @HiveField(3)
   final String? icon;
   @override
+  @Uint8ListConverter()
   @HiveField(4)
-  final String? image;
+  final Uint8List? image;
   @override
   @HiveField(5)
   final bool isExpense;
@@ -233,7 +235,7 @@ class _$TransactionImpl implements _Transaction {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.icon, icon) || other.icon == icon) &&
-            (identical(other.image, image) || other.image == image) &&
+            const DeepCollectionEquality().equals(other.image, image) &&
             (identical(other.isExpense, isExpense) ||
                 other.isExpense == isExpense) &&
             (identical(other.value, value) || other.value == value));
@@ -241,8 +243,8 @@ class _$TransactionImpl implements _Transaction {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, date, icon, image, isExpense, value);
+  int get hashCode => Object.hash(runtimeType, id, title, date, icon,
+      const DeepCollectionEquality().hash(image), isExpense, value);
 
   @JsonKey(ignore: true)
   @override
@@ -264,7 +266,7 @@ abstract class _Transaction implements Transaction {
       @HiveField(1) required final String title,
       @HiveField(2) required final DateTime date,
       @HiveField(3) final String? icon,
-      @HiveField(4) final String? image,
+      @Uint8ListConverter() @HiveField(4) final Uint8List? image,
       @HiveField(5) required final bool isExpense,
       @HiveField(6) required final double value}) = _$TransactionImpl;
 
@@ -284,8 +286,9 @@ abstract class _Transaction implements Transaction {
   @HiveField(3)
   String? get icon;
   @override
+  @Uint8ListConverter()
   @HiveField(4)
-  String? get image;
+  Uint8List? get image;
   @override
   @HiveField(5)
   bool get isExpense;

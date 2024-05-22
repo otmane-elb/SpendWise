@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: library_private_types_in_public_api
-
 part of 'transaction_model.dart';
 
 // **************************************************************************
@@ -23,7 +21,7 @@ class TransactionAdapter extends TypeAdapter<_$TransactionImpl> {
       title: fields[1] as String,
       date: fields[2] as DateTime,
       icon: fields[3] as String?,
-      image: fields[4] as String?,
+      image: fields[4] as Uint8List?,
       isExpense: fields[5] as bool,
       value: fields[6] as double,
     );
@@ -70,7 +68,7 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       date: DateTime.parse(json['date'] as String),
       icon: json['icon'] as String?,
-      image: json['image'] as String?,
+      image: const Uint8ListConverter().fromJson(json['image'] as String?),
       isExpense: json['isExpense'] as bool,
       value: (json['value'] as num).toDouble(),
     );
@@ -81,7 +79,7 @@ Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
       'title': instance.title,
       'date': instance.date.toIso8601String(),
       'icon': instance.icon,
-      'image': instance.image,
+      'image': const Uint8ListConverter().toJson(instance.image),
       'isExpense': instance.isExpense,
       'value': instance.value,
     };

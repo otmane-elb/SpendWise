@@ -1,5 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:typed_data';
+
+import '../../../utils/extentions/unit8list_converter.dart';
 
 part 'transaction_model.freezed.dart';
 part 'transaction_model.g.dart';
@@ -12,7 +15,7 @@ class Transaction with _$Transaction {
     @HiveField(1) required String title,
     @HiveField(2) required DateTime date,
     @HiveField(3) String? icon,
-    @HiveField(4) String? image,
+    @Uint8ListConverter() @HiveField(4) Uint8List? image,
     @HiveField(5) required bool isExpense,
     @HiveField(6) required double value,
   }) = _Transaction;
