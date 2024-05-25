@@ -13,7 +13,7 @@ class FinancialDataNotifier extends StateNotifier<FinancialData> {
     _updateWidget();
   }
 
-  static const platform = MethodChannel('com.example.spendwise/widget');
+  static const platform = MethodChannel('com.otmane.spendwise/widget');
 
   void _calculateFinancialData(List<Transaction> transactions) {
     double income = 0;

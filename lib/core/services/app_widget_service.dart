@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:flutter/services.dart';
 
 class WidgetUpdater {
-  static const platform = MethodChannel('com.example.spendwise/widget');
+  static const platform = MethodChannel('com.otmane.spendwise/widget');
 
-  static Future<void> updateWidget(double balance, double income, double expense) async {
+  static Future<void> updateWidget(
+      double balance, double income, double expense) async {
     try {
       await platform.invokeMethod('updateWidget', {
         'balance': balance,

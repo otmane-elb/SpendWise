@@ -1,4 +1,4 @@
-package com.example.spendwise
+package com.otmane.spendwise
 
 import android.os.Bundle
 import io.flutter.embedding.android.FlutterActivity
@@ -10,7 +10,7 @@ import android.widget.RemoteViews
 
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.example.spendwise/widget"
+    private val CHANNEL = "com.otmane.spendwise/widget"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

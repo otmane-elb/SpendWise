@@ -1,4 +1,4 @@
-package com.example.spendwise
+package com.otmane.spendwise
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
