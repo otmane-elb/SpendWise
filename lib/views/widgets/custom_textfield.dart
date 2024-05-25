@@ -59,8 +59,8 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
     _controller = widget.controller ?? TextEditingController();
     if (widget.isDate) {
       if (widget.initialValue != null) {
-        _selectedDate = DateFormat('EEE, dd MMM yyyy')
-            .parse(widget.initialValue!); // Change 1: Parse initial value
+        _selectedDate =
+            DateFormat('EEE, dd MMM yyyy').parse(widget.initialValue!);
         _controller.text = widget.initialValue!;
       } else {
         _selectedDate = DateTime.now();
@@ -86,14 +86,12 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
             SizedBox(
               height: 180,
               child: CupertinoDatePicker(
-                initialDateTime:
-                    _selectedDate, // Change 2: Use _selectedDate as initial date
+                initialDateTime: _selectedDate,
                 mode: CupertinoDatePickerMode.date,
                 onDateTimeChanged: (DateTime newDate) {
                   setState(() {
-                    _selectedDate = newDate; // Change 3: Update _selectedDate
-                    _controller.text = _formatDate(
-                        _selectedDate!); // Change 4: Update controller text
+                    _selectedDate = newDate;
+                    _controller.text = _formatDate(_selectedDate!);
                     if (widget.onChanged != null) {
                       widget.onChanged!(_controller.text);
                     }
@@ -114,6 +112,23 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
       ),
     );
+  }
+
+  String? _validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field is required';
+    }
+    if (widget.isNumber && double.tryParse(value) == null) {
+      return 'Please enter a valid number';
+    }
+    if (widget.isDate) {
+      try {
+        DateFormat('EEE, dd MMM yyyy').parse(value);
+      } catch (e) {
+        return 'Please enter a valid date';
+      }
+    }
+    return null;
   }
 
   @override
@@ -138,7 +153,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
           obscureText: widget.isPassword && widget.isHiddenPassword,
           keyboardType:
               widget.isNumber ? TextInputType.number : widget.keyboardType,
-          validator: widget.validator,
+          validator: widget.validator ?? _validateInput,
           onChanged: widget.onChanged,
           onFieldSubmitted: widget.onFieldSubmitted,
           maxLines: widget.maxLines,

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spendwise/views/history/history_screen.dart';
 import 'package:spendwise/views/nav_bar/nav_bar.dart';
-import 'package:spendwise/views/profile/profile_screen.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
 import '../../core/models/transaction_model/transaction_model.dart';
 import '../../core/providers/financial_data_provider.dart';
@@ -37,7 +36,7 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   CustomCurvedContainer(
                     height: height,
-                    name: 'Otmane Elbaghazaoui',
+                    name: 'Dear User',
                   ),
                   Positioned.fill(
                     child: CreditCard(
@@ -67,24 +66,20 @@ class HomeScreen extends ConsumerWidget {
                   .removeTransaction(transaction);
             },
           ),
-          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: const NavBar(),
-      floatingActionButton: Visibility(
-        visible: selectedIndex == 0,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 50),
-          child: FloatingActionButton(
-            backgroundColor: AppColors.primaryLightColor,
-            shape: const CircleBorder(),
-            onPressed: () {
-              context.pushNamed('addTransaction');
-            },
-            child: const Icon(
-              Icons.add,
-              color: AppColors.white,
-            ),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+          backgroundColor: AppColors.primaryLightColor,
+          shape: const CircleBorder(),
+          onPressed: () {
+            context.pushNamed('addTransaction');
+          },
+          child: const Icon(
+            Icons.add,
+            color: AppColors.white,
           ),
         ),
       ),

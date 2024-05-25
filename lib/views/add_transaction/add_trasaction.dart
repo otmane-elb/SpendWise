@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,6 +31,8 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
   final TextEditingController amountController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final Uuid uuid = const Uuid();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool isExpense = true;
   IconData? selectedIcon;
   XFile? imageFile;
@@ -58,7 +62,7 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
             right: 20,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              height: height * .75,
+              height: height * .76,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -72,138 +76,159 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    CustomTextFormField(
-                      label: 'Name',
-                      hintText: 'Name',
-                      controller: nameController,
-                    ),
-                    const SizedBox(height: 10),
-                    ExpansionTile(
-                      title: const Text(
-                        'Select Icon',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.grey400,
-                        ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      CustomTextFormField(
+                        label: 'Name',
+                        hintText: 'Name',
+                        controller: nameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a name';
+                          }
+                          return null;
+                        },
                       ),
-                      children: [
-                        IconSelector(
-                          selectedIcon: selectedIcon,
-                          onIconSelected: (icon) {
-                            setState(() {
-                              selectedIcon = icon;
-                            });
-                          },
+                      const SizedBox(height: 10),
+                      ExpansionTile(
+                        title: const Text(
+                          'Select Icon',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey400,
+                          ),
                         ),
-                      ],
-                    ),
-                    CustomTextFormField(
-                      label: 'Amount',
-                      hintText: 'Amount',
-                      controller: amountController,
-                      isNumber: true,
-                    ),
-                    CustomTextFormField(
-                      label: 'Date',
-                      hintText: 'Date',
-                      controller: dateController,
-                      isDate: true,
-                    ),
-                    GestureDetector(
-                      onTap: _pickImage,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 20, left: 20, right: 20),
-                        child: DottedBorder(
-                          dashPattern: const [10, 10],
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          color: Colors.black,
-                          strokeWidth: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              imageFile == null
-                                  ? const Icon(
-                                      Icons.add_circle,
-                                      color: AppColors.grey400,
-                                    )
-                                  : const Icon(
-                                      Icons.check_circle,
-                                      color: Colors.green,
-                                    ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                'Add invoice',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: AppColors.grey400,
-                                  fontWeight: FontWeight.bold,
+                        children: [
+                          IconSelector(
+                            selectedIcon: selectedIcon,
+                            onIconSelected: (icon) {
+                              setState(() {
+                                selectedIcon = icon;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      CustomTextFormField(
+                        label: 'Amount',
+                        hintText: 'Amount',
+                        controller: amountController,
+                        isNumber: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter an amount';
+                          }
+                          if (double.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        label: 'Date',
+                        hintText: 'Date',
+                        controller: dateController,
+                        isDate: true,
+                      ),
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, left: 20, right: 20),
+                          child: DottedBorder(
+                            dashPattern: const [10, 10],
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            color: Colors.black,
+                            strokeWidth: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                imageFile == null
+                                    ? const Icon(
+                                        Icons.add_circle,
+                                        color: AppColors.grey400,
+                                      )
+                                    : const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                      ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add invoice',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: AppColors.grey400,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    CustomDropdownField(
-                      label: 'Transaction Type',
-                      value: isExpense,
-                      onChanged: (value) {
-                        setState(() {
-                          isExpense = value!;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CustomButton(
-                          isWhite: true,
-                          onPressed: () {
-                            context.replaceNamed('home');
-                          },
-                          text: 'Cancel',
-                        ),
-                        CustomButton(
-                          onPressed: () async {
-                            final title = nameController.text;
-                            final value =
-                                double.tryParse(amountController.text) ?? 0.0;
-                            final dateFormatter =
-                                DateFormat('EEE, dd MMM yyyy');
-                            final date =
-                                dateFormatter.parse(dateController.text);
+                      CustomDropdownField(
+                        label: 'Transaction Type',
+                        value: isExpense,
+                        onChanged: (value) {
+                          setState(() {
+                            isExpense = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          CustomButton(
+                            isWhite: true,
+                            onPressed: () {
+                              context.pop();
+                            },
+                            text: 'Cancel',
+                          ),
+                          CustomButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                final title = nameController.text;
+                                final value =
+                                    double.tryParse(amountController.text) ??
+                                        0.0;
+                                final dateFormatter =
+                                    DateFormat('EEE, dd MMM yyyy');
+                                final date =
+                                    dateFormatter.parse(dateController.text);
 
-                            final transaction = Transaction(
-                              id: uuid.v4(),
-                              title: title,
-                              date: date,
-                              isExpense: isExpense,
-                              value: value,
-                              icon: getStringFromIconData(selectedIcon),
-                              image: imageFile?.path != null
-                                  ? await fileToBytes(imageFile!.path)
-                                  : null,
-                            );
+                                final transaction = Transaction(
+                                  id: uuid.v4(),
+                                  title: title,
+                                  date: date,
+                                  isExpense: isExpense,
+                                  value: value,
+                                  icon: getStringFromIconData(selectedIcon),
+                                  image: imageFile?.path != null
+                                      ? await fileToBytes(imageFile!.path)
+                                      : null,
+                                );
 
-                            ref
-                                .read(transactionProvider.notifier)
-                                .addTransaction(transaction);
+                                ref
+                                    .read(transactionProvider.notifier)
+                                    .addTransaction(transaction);
 
-                            context.replaceNamed('home');
-                          },
-                          text: 'Save',
-                        ),
-                      ],
-                    )
-                  ],
+                                context.replaceNamed('home');
+                              }
+                            },
+                            text: 'Save',
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

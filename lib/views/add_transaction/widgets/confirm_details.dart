@@ -38,7 +38,10 @@ class ConfirmDetailsDialogState extends State<ConfirmDetailsDialog> {
           CheckboxListTile(
             title: Text(
               'Amount: ${widget.totalAmount}',
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall!
+                  .copyWith(color: AppColors.white),
             ),
             value: confirmAmount,
             onChanged: (bool? value) {
@@ -50,7 +53,10 @@ class ConfirmDetailsDialogState extends State<ConfirmDetailsDialog> {
           CheckboxListTile(
             title: Text(
               'Date: ${widget.date}',
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall!
+                  .copyWith(color: AppColors.white),
             ),
             value: confirmDate,
             onChanged: (bool? value) {
@@ -79,6 +85,29 @@ class ConfirmDetailsDialogState extends State<ConfirmDetailsDialog> {
                 text: 'Save'),
           ],
         ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.info,
+              color: AppColors.beige,
+              size: 15,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              'Attention The Data may be incorrect',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall!
+                  .copyWith(fontSize: 10),
+            ),
+          ],
+        )
       ],
     );
   }

@@ -20,7 +20,6 @@ Future<String> processImage(XFile file) async {
       await textRecognizer.processImage(inputImage);
 
   String extractedText = recognizedText.text;
-  print(extractedText);
   RegExp regex = RegExp(r'(\d+\.\d{2})');
   final matches = regex.allMatches(extractedText);
 
@@ -44,15 +43,12 @@ Future<String> extractTextFromImage(XFile file) async {
 Future<String> processImagenew(XFile file) async {
   final String extractedText = await extractTextFromImage(file);
   List<String> lines = extractedText.split('\n');
-  print(lines);
 
   // Extract total amount
   String totalAmount = extractTotalAmount(lines);
   // Extract date
   String date = extractDateFromText(lines);
 
-  print('Total Amount: $totalAmount');
-  print('Date: $date');
 
   return 'Total Amount: $totalAmount, Date: $date';
 }
