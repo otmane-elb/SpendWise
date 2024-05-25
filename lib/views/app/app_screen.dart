@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../utils/routes/routes_controller.dart';
+import '../../core/routes/routes_controller.dart';
 import '../themes/themes_controller.dart';
 
 class MyApp extends StatelessWidget {
@@ -8,10 +9,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
-      theme: ThemesController.getLightTheme,
+    return ProviderScope(
+      child: MaterialApp.router(
+        routerConfig: router,
+        debugShowCheckedModeBanner: false,
+        theme: ThemesController.getLightTheme,
+      ),
     );
   }
 }

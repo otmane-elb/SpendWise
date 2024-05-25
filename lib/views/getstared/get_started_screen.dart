@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:spendwise/utils/routes/app_routes.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:spendwise/core/routes/app_routes.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
 import 'package:spendwise/views/themes/app_images.dart';
 import 'package:spendwise/views/widgets/custom_button.dart';
@@ -37,12 +38,18 @@ class GetStartedScreen extends StatelessWidget {
               height: 67,
               text: 'Get Started',
               onPressed: () {
-                context.goNamed(AppRoutes.home);
+                dontShowAgain();
+                context.pushNamed(AppRoutes.home);
               },
             ),
           )
         ],
       ),
     );
+  }
+
+  dontShowAgain() async {
+    var box = Hive.box('isFirst');
+    await box.put('isFirstTime', false);
   }
 }

@@ -17,6 +17,7 @@ class CustomButton extends StatelessWidget {
   final Color? textColor;
   final double? radius;
   final Color? borderColor;
+  final bool isWhite;
 
   const CustomButton({
     super.key,
@@ -33,28 +34,39 @@ class CustomButton extends StatelessWidget {
     this.radius,
     this.borderColor,
     this.shadows = false,
+    this.isWhite = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bgColor = isWhite
+        ? AppColors.white
+        : (backgroundColor ?? AppColors.primaryLightColor);
+    final txtColor =
+        isWhite ? AppColors.primaryColor : (textColor ?? AppColors.white);
+    final brdColor =
+        isWhite ? AppColors.primaryColor : (borderColor ?? Colors.transparent);
+
     return Container(
       decoration: BoxDecoration(
-          border: borderColor != null
-              ? Border.all(
-                  color: borderColor!,
-                )
-              : null,
-          borderRadius: radius != null ? BorderRadius.circular(radius!) : null,
-          boxShadow: shadows
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
-                    spreadRadius: 2,
-                    blurRadius: 20,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : []),
+        border: Border.all(
+          color: brdColor,
+          width: 1.0,
+        ),
+        borderRadius: radius != null
+            ? BorderRadius.circular(radius!)
+            : BorderRadius.circular(30),
+        boxShadow: shadows
+            ? [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  spreadRadius: 2,
+                  blurRadius: 20,
+                  offset: const Offset(0, 2),
+                ),
+              ]
+            : [],
+      ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: minWidth ?? 90,
@@ -65,7 +77,7 @@ class CustomButton extends StatelessWidget {
             padding: EdgeInsets.zero,
             elevation: 0,
             shadowColor: Colors.transparent,
-            backgroundColor: backgroundColor ?? AppColors.primaryLightColor,
+            backgroundColor: bgColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius ?? 30),
             ),
@@ -83,7 +95,7 @@ class CustomButton extends StatelessWidget {
                       text!,
                       style: textStyle ??
                           TextStyle(
-                            color: textColor ?? AppColors.white,
+                            color: txtColor,
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
                           ),
@@ -92,8 +104,8 @@ class CustomButton extends StatelessWidget {
                   if (isLoading) ...[
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: const CupertinoActivityIndicator(
-                        color: AppColors.white,
+                      child: CupertinoActivityIndicator(
+                        color: txtColor,
                         radius: 15,
                       ),
                     ),

@@ -13,6 +13,16 @@ class ThemesController {
             fontSize: 36,
             color: AppColors.primaryColor,
             fontWeight: FontWeight.bold),
+        bodyLarge: GoogleFonts.inter().copyWith(
+            fontSize: 25, color: AppColors.white, fontWeight: FontWeight.bold),
+        bodyMedium: GoogleFonts.inter().copyWith(
+            fontSize: 14, color: AppColors.white, fontWeight: FontWeight.w500),
+        labelLarge: GoogleFonts.inter().copyWith(
+            fontSize: 20, color: AppColors.white, fontWeight: FontWeight.bold),
+        labelSmall: GoogleFonts.inter().copyWith(
+            fontSize: 16, color: AppColors.beige, fontWeight: FontWeight.w500),
+        titleLarge: GoogleFonts.inter().copyWith(
+            fontSize: 18, color: AppColors.black, fontWeight: FontWeight.w600),
       ),
       scaffoldBackgroundColor: AppColors.white,
       colorScheme: ColorScheme.fromSeed(
