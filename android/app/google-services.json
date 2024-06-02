@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "800761059878",
+    "project_id": "spendwise-3a383",
+    "storage_bucket": "spendwise-3a383.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800761059878:android:325c2c118abcfebd78e4e7",
+        "android_client_info": {
+          "package_name": "com.otmane.spendwise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsMLP3mvs7YSNLDAfSiZgz21VaXp4I_VY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

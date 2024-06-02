@@ -2,7 +2,7 @@ name: spendwise
 description: "A new Flutter project."
 publish_to: 'none' # Prevent accidental publishing
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
@@ -35,6 +35,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   shimmer: ^3.0.0 
   excel: ^4.0.2
+  firebase_core: ^1.19.0
 
 
 dev_dependencies:
