@@ -23,6 +23,7 @@ const Map<String, IconData> iconMap = {
   'mugSaucer': FontAwesomeIcons.mugSaucer,
   'bus': FontAwesomeIcons.bus,
   'heart': FontAwesomeIcons.heart,
+  'shirt': FontAwesomeIcons.shirt
 };
 
 IconData? getIconDataFromString(String? iconString) {

@@ -1,7 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spendwise/views/home/widgets/curved_container.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
 import 'package:spendwise/views/widgets/custom_button.dart';
@@ -32,6 +31,16 @@ class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
   final NotificationService _notificationService = NotificationService();
   bool _notificationsEnabled = false;
   TimeOfDay _selectedTime = const TimeOfDay(hour: 22, minute: 0);
+  final Box _settingsBox = Hive.box('settings');
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationsEnabled = _settingsBox.get('notificationsEnabled', defaultValue: false);
+    final storedHour = _settingsBox.get('notificationHour', defaultValue: 22);
+    final storedMinute = _settingsBox.get('notificationMinute', defaultValue: 0);
+    _selectedTime = TimeOfDay(hour: storedHour, minute: storedMinute);
+  }
 
   String _getGreeting() {
     final hour = DateTime.now().hour;
@@ -71,10 +80,10 @@ class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
                     onChanged: (bool value) async {
                       setState(() {
                         _notificationsEnabled = value;
+                        _settingsBox.put('notificationsEnabled', value);
                       });
                       if (value) {
-                        await _notificationService
-                            .requestExactAlarmPermission();
+                        await _notificationService.requestExactAlarmPermission();
                       }
                     },
                   ),
@@ -97,6 +106,8 @@ class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
                       if (picked != null && picked != _selectedTime) {
                         setState(() {
                           _selectedTime = picked;
+                          _settingsBox.put('notificationHour', picked.hour);
+                          _settingsBox.put('notificationMinute', picked.minute);
                         });
                         if (_notificationsEnabled) {
                           await _notificationService.scheduleDailyNotification(
