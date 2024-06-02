@@ -13,6 +13,7 @@ void main() async {
   await notificationService.scheduleDailyNotification();
   Hive.registerAdapter(TransactionAdapter());
   await Hive.openBox<Transaction>('transactions');
+  await Hive.openBox('settings');
   await Hive.openBox('isFirst');
   runApp(
     const MyApp(),

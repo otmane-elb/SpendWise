@@ -32,12 +32,12 @@ class IconSelector extends StatelessWidget {
       FontAwesomeIcons.tv,
       FontAwesomeIcons.wifi,
       FontAwesomeIcons.bell,
-      FontAwesomeIcons.tv,
       FontAwesomeIcons.appleWhole,
       FontAwesomeIcons.book,
       FontAwesomeIcons.mugSaucer,
       FontAwesomeIcons.bus,
       FontAwesomeIcons.heart,
+      FontAwesomeIcons.shirt
     ];
 
     return GridView.builder(
