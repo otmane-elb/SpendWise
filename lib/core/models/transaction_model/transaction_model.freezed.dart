@@ -35,6 +35,8 @@ mixin _$Transaction {
   bool get isExpense => throw _privateConstructorUsedError;
   @HiveField(6)
   double get value => throw _privateConstructorUsedError;
+  @HiveField(7)
+  int? get order => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +57,8 @@ abstract class $TransactionCopyWith<$Res> {
       @HiveField(3) String? icon,
       @Uint8ListConverter() @HiveField(4) Uint8List? image,
       @HiveField(5) bool isExpense,
-      @HiveField(6) double value});
+      @HiveField(6) double value,
+      @HiveField(7) int? order});
 }
 
 /// @nodoc
@@ -78,6 +81,7 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     Object? image = freezed,
     Object? isExpense = null,
     Object? value = null,
+    Object? order = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -108,6 +112,10 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
+      order: freezed == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -127,7 +135,8 @@ abstract class _$$TransactionImplCopyWith<$Res>
       @HiveField(3) String? icon,
       @Uint8ListConverter() @HiveField(4) Uint8List? image,
       @HiveField(5) bool isExpense,
-      @HiveField(6) double value});
+      @HiveField(6) double value,
+      @HiveField(7) int? order});
 }
 
 /// @nodoc
@@ -148,6 +157,7 @@ class __$$TransactionImplCopyWithImpl<$Res>
     Object? image = freezed,
     Object? isExpense = null,
     Object? value = null,
+    Object? order = freezed,
   }) {
     return _then(_$TransactionImpl(
       id: null == id
@@ -178,6 +188,10 @@ class __$$TransactionImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
+      order: freezed == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -193,7 +207,8 @@ class _$TransactionImpl implements _Transaction {
       @HiveField(3) this.icon,
       @Uint8ListConverter() @HiveField(4) this.image,
       @HiveField(5) required this.isExpense,
-      @HiveField(6) required this.value});
+      @HiveField(6) required this.value,
+      @HiveField(7) this.order});
 
   factory _$TransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionImplFromJson(json);
@@ -220,10 +235,13 @@ class _$TransactionImpl implements _Transaction {
   @override
   @HiveField(6)
   final double value;
+  @override
+  @HiveField(7)
+  final int? order;
 
   @override
   String toString() {
-    return 'Transaction(id: $id, title: $title, date: $date, icon: $icon, image: $image, isExpense: $isExpense, value: $value)';
+    return 'Transaction(id: $id, title: $title, date: $date, icon: $icon, image: $image, isExpense: $isExpense, value: $value, order: $order)';
   }
 
   @override
@@ -238,13 +256,14 @@ class _$TransactionImpl implements _Transaction {
             const DeepCollectionEquality().equals(other.image, image) &&
             (identical(other.isExpense, isExpense) ||
                 other.isExpense == isExpense) &&
-            (identical(other.value, value) || other.value == value));
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.order, order) || other.order == order));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, date, icon,
-      const DeepCollectionEquality().hash(image), isExpense, value);
+      const DeepCollectionEquality().hash(image), isExpense, value, order);
 
   @JsonKey(ignore: true)
   @override
@@ -268,7 +287,8 @@ abstract class _Transaction implements Transaction {
       @HiveField(3) final String? icon,
       @Uint8ListConverter() @HiveField(4) final Uint8List? image,
       @HiveField(5) required final bool isExpense,
-      @HiveField(6) required final double value}) = _$TransactionImpl;
+      @HiveField(6) required final double value,
+      @HiveField(7) final int? order}) = _$TransactionImpl;
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
       _$TransactionImpl.fromJson;
@@ -295,6 +315,9 @@ abstract class _Transaction implements Transaction {
   @override
   @HiveField(6)
   double get value;
+  @override
+  @HiveField(7)
+  int? get order;
   @override
   @JsonKey(ignore: true)
   _$$TransactionImplCopyWith<_$TransactionImpl> get copyWith =>

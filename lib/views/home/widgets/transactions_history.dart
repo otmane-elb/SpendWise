@@ -12,11 +12,13 @@ class TransactionHistory extends StatefulWidget {
     super.key,
     required this.transactions,
     required this.onDismissed,
+    required this.onReorder,
     this.onTap,
   });
 
   final List<Transaction> transactions;
   final Function(Transaction) onDismissed;
+  final Function(int oldIndex, int newIndex) onReorder;
   final Function()? onTap;
 
   @override
@@ -25,10 +27,11 @@ class TransactionHistory extends StatefulWidget {
 
 class _TransactionHistoryState extends State<TransactionHistory> {
   bool show = false;
+
   @override
   void initState() {
-    wait();
     super.initState();
+    wait();
   }
 
   wait() {
@@ -41,81 +44,79 @@ class _TransactionHistoryState extends State<TransactionHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Transaction History',
-                    style: Theme.of(context).textTheme.titleLarge),
-                Text(
-                  '',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.greySeeAll),
-                ),
-              ],
-            ),
-            show
-                ? Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.transactions.length,
-                      itemBuilder: (context, index) {
-                        final transaction = widget.transactions[index];
-                        return Dismissible(
-                          key: Key(transaction.id),
-                          direction: DismissDirection.endToStart,
-                          confirmDismiss: (direction) async {
-                            return await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ConfirmationDialog(
-                                  title: 'Delete confirmation',
-                                  content:
-                                      'Are you sure you want to delete this transaction?',
-                                  onConfirm: () {
-                                    widget.onDismissed(transaction);
-                                  },
-                                );
-                              },
-                            );
-                          },
-                          background: Container(
-                            color: Colors.red,
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: const Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Transaction History',
+                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                '',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColors.greySeeAll),
+              ),
+            ],
+          ),
+          Expanded(
+            child: show
+                ? ReorderableListView.builder(
+                    itemCount: widget.transactions.length,
+                    onReorder: widget.onReorder,
+                    itemBuilder: (context, index) {
+                      final transaction = widget.transactions[index];
+                      return Dismissible(
+                        key: Key(transaction.id),
+                        direction: DismissDirection.endToStart,
+                        confirmDismiss: (direction) async {
+                          return await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ConfirmationDialog(
+                                title: 'Delete confirmation',
+                                content:
+                                    'Are you sure you want to delete this transaction?',
+                                onConfirm: () {
+                                  widget.onDismissed(transaction);
+                                },
+                              );
+                            },
+                          );
+                        },
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
                           ),
-                          child: TransactionWidget(
-                              onTap: () {
-                                context.pushNamed(AppRoutes.transactionDetails,
-                                    pathParameters: {'id': transaction.id});
-                              },
-                              transaction: transaction),
-                        );
-                      },
-                    ),
+                        ),
+                        child: TransactionWidget(
+                          onTap: () {
+                            context.pushNamed(AppRoutes.transactionDetails,
+                                pathParameters: {'id': transaction.id});
+                          },
+                          transaction: transaction,
+                        ),
+                      );
+                    },
                   )
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.transactions.length,
-                      itemBuilder: (context, index) {
-                        return const TransactionPlaceholder();
-                      },
-                    ),
+                : ListView.builder(
+                    itemCount: widget.transactions.length,
+                    itemBuilder: (context, index) {
+                      return const TransactionPlaceholder();
+                    },
                   ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -7,7 +7,7 @@ import io.flutter.plugin.common.MethodChannel
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.widget.RemoteViews
-
+import androidx.core.content.ContextCompat
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.otmane.spendwise/widget"
@@ -29,9 +29,18 @@ class MainActivity : FlutterActivity() {
 
                 for (appWidgetId in appWidgetIds) {
                     val views = RemoteViews(context.packageName, R.layout.widget_layout)
-                    views.setTextViewText(R.id.widget_balance, "$${balance.toString()}")
-                    views.setTextViewText(R.id.widget_income, "$${income.toString()}")
-                    views.setTextViewText(R.id.widget_expense, "$${expense.toString()}")
+                    views.setTextViewText(R.id.widget_balance, "$${String.format("%.2f", balance)}")
+                    views.setTextViewText(R.id.widget_income, "$${String.format("%.2f", income)}")
+                    views.setTextViewText(R.id.widget_expense, "$${String.format("%.2f", expense)}")
+
+                    // Set text color based on balance
+                    val balanceColor = if (balance != null && balance > 0) {
+                        ContextCompat.getColor(context, android.R.color.white)
+                    } else {
+                        ContextCompat.getColor(context, R.color.red_color)
+                    }
+                    views.setTextColor(R.id.widget_balance, balanceColor)
+
                     appWidgetManager.updateAppWidget(appWidgetId, views)
                 }
 

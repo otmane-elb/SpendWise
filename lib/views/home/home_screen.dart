@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spendwise/views/history/history_screen.dart';
+import 'package:spendwise/views/home/widgets/transactions_history.dart';
 import 'package:spendwise/views/nav_bar/nav_bar.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
 import '../../core/models/transaction_model/transaction_model.dart';
@@ -10,7 +11,6 @@ import '../../core/providers/navigation_provider.dart';
 import '../../core/providers/transaction_provider.dart';
 import 'widgets/credit_card.dart';
 import 'widgets/custom_curved_container.dart';
-import 'widgets/transactions_history.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -48,18 +48,24 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              TransactionHistory(
-                transactions: transactions,
-                onDismissed: (transaction) {
-                  ref
-                      .read(transactionProvider.notifier)
-                      .removeTransaction(transaction);
-                },
+              Expanded(
+                child: TransactionHistory(
+                  transactions: transactions,
+                  onDismissed: (transaction) {
+                    ref
+                        .read(transactionProvider.notifier)
+                        .removeTransaction(transaction);
+                  },
+                  onReorder: (int oldIndex, int newIndex) {
+                    ref
+                        .read(transactionProvider.notifier)
+                        .reorderTransactions(oldIndex, newIndex);
+                  },
+                ),
               ),
             ],
           ),
           HistoryScreen(
-            transactions: transactions,
             onDismissed: (transaction) {
               ref
                   .read(transactionProvider.notifier)

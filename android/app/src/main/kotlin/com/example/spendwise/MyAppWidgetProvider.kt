@@ -14,7 +14,7 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_layout)
         // Update the widget with your data
-        remoteViews.setTextViewText(R.id.widget_balance_label, "Total Balance ^")
+        remoteViews.setTextViewText(R.id.widget_balance_label, "Total Balance")
         remoteViews.setTextViewText(R.id.widget_balance, "-$165.63")
         remoteViews.setTextViewText(R.id.widget_income_label, "Income")
         remoteViews.setTextViewText(R.id.widget_income, "$0.00")

@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: library_private_types_in_public_api
-
 part of 'transaction_model.dart';
 
 // **************************************************************************
@@ -26,13 +24,14 @@ class TransactionAdapter extends TypeAdapter<_$TransactionImpl> {
       image: fields[4] as Uint8List?,
       isExpense: fields[5] as bool,
       value: fields[6] as double,
+      order: fields[7] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$TransactionImpl obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -46,7 +45,9 @@ class TransactionAdapter extends TypeAdapter<_$TransactionImpl> {
       ..writeByte(5)
       ..write(obj.isExpense)
       ..writeByte(6)
-      ..write(obj.value);
+      ..write(obj.value)
+      ..writeByte(7)
+      ..write(obj.order);
   }
 
   @override
@@ -73,6 +74,7 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
       image: const Uint8ListConverter().fromJson(json['image'] as String?),
       isExpense: json['isExpense'] as bool,
       value: (json['value'] as num).toDouble(),
+      order: (json['order'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
@@ -84,4 +86,5 @@ Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
       'image': const Uint8ListConverter().toJson(instance.image),
       'isExpense': instance.isExpense,
       'value': instance.value,
+      'order': instance.order,
     };

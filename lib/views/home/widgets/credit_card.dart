@@ -30,20 +30,15 @@ class CreditCard extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Total Balance ^',
-                  style: Theme.of(context).textTheme.labelLarge),
-              const Icon(
-                Icons.more_horiz,
-                color: AppColors.white,
-              )
-            ],
+          Center(
+            child: Text('Total Balance :',
+                style: Theme.of(context).textTheme.labelLarge),
           ),
-          Text('\$${FormatStyles().formatCurrency(balance)} ',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: balance < 0 ? AppColors.red : AppColors.white)),
+          Center(
+            child: Text('\$${FormatStyles().formatCurrency(balance)}',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: balance < 0 ? AppColors.red : AppColors.white)),
+          ),
           const SizedBox(
             height: 10,
           ),

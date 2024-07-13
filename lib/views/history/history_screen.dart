@@ -1,18 +1,16 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spendwise/views/history/widgets/filters.dart';
 import 'package:spendwise/views/history/widgets/transactions_chart.dart';
 import 'package:spendwise/views/home/widgets/transactions_history.dart';
 import '../../core/models/transaction_model/transaction_model.dart';
+import '../../core/providers/transaction_provider.dart';
 
-class HistoryScreen extends StatefulWidget {
-  final List<Transaction> transactions;
+class HistoryScreen extends ConsumerStatefulWidget {
   final Function(Transaction) onDismissed;
 
   const HistoryScreen({
     super.key,
-    required this.transactions,
     required this.onDismissed,
   });
 
@@ -20,13 +18,20 @@ class HistoryScreen extends StatefulWidget {
   HistoryScreenState createState() => HistoryScreenState();
 }
 
-class HistoryScreenState extends State<HistoryScreen> {
+class HistoryScreenState extends ConsumerState<HistoryScreen> {
   String _selectedSorting = 'DateAsc';
   bool _showIncome = true;
   bool _showExpense = true;
+  late List<Transaction> transactions;
+
+  @override
+  void initState() {
+    super.initState();
+    transactions = ref.read(transactionProvider);
+  }
 
   List<Transaction> getFilteredTransactions() {
-    List<Transaction> filteredTransactions = widget.transactions;
+    List<Transaction> filteredTransactions = transactions;
 
     if (!_showIncome) {
       filteredTransactions =
@@ -47,12 +52,12 @@ class HistoryScreenState extends State<HistoryScreen> {
     } else if (_selectedSorting == 'ValueDesc') {
       filteredTransactions.sort((a, b) => b.value.compareTo(a.value));
     }
-
     return filteredTransactions;
   }
 
   @override
   Widget build(BuildContext context) {
+    transactions = ref.watch(transactionProvider);
     List<Transaction> filteredTransactions = getFilteredTransactions();
 
     return Scaffold(
@@ -62,9 +67,10 @@ class HistoryScreenState extends State<HistoryScreen> {
             height: 50,
           ),
           Expanded(
-              child: filteredTransactions.isNotEmpty
-                  ? SimpleLineChart(transactions: filteredTransactions)
-                  : Container()),
+            child: filteredTransactions.isNotEmpty
+                ? SimpleLineChart(transactions: filteredTransactions)
+                : Container(),
+          ),
           const SizedBox(
             height: 50,
           ),
@@ -88,9 +94,12 @@ class HistoryScreenState extends State<HistoryScreen> {
               });
             },
           ),
-          TransactionHistory(
-            transactions: filteredTransactions,
-            onDismissed: widget.onDismissed,
+          Expanded(
+            child: TransactionHistory(
+              transactions: filteredTransactions,
+              onDismissed: widget.onDismissed,
+              onReorder: (int oldIndex, int newIndex) {},
+            ),
           ),
         ],
       ),

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -204,6 +204,11 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
                                 final date =
                                     dateFormatter.parse(dateController.text);
 
+                                final transactions = ref
+                                    .read(transactionProvider.notifier)
+                                    .state;
+                                final order = transactions.length;
+
                                 final transaction = Transaction(
                                   id: uuid.v4(),
                                   title: title,
@@ -214,13 +219,14 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
                                   image: imageFile?.path != null
                                       ? await fileToBytes(imageFile!.path)
                                       : null,
+                                  order: order, // Set the order value
                                 );
 
                                 ref
                                     .read(transactionProvider.notifier)
                                     .addTransaction(transaction);
 
-                                context.replaceNamed('home');
+                                context.pop();
                               }
                             },
                             text: 'Save',

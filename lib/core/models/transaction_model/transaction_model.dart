@@ -18,7 +18,9 @@ class Transaction with _$Transaction {
     @Uint8ListConverter() @HiveField(4) Uint8List? image,
     @HiveField(5) required bool isExpense,
     @HiveField(6) required double value,
+    @HiveField(7) int? order, // Make order nullable temporarily
   }) = _Transaction;
 
-  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
+  factory Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
 }
