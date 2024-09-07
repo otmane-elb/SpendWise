@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:spendwise/views/home/widgets/curved_container.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
 import 'package:spendwise/views/widgets/custom_button.dart';
 
@@ -24,10 +23,10 @@ class CustomCurvedContainer extends StatefulWidget {
   final bool isPop;
 
   @override
-  _CustomCurvedContainerState createState() => _CustomCurvedContainerState();
+  CustomCurvedContainerState createState() => CustomCurvedContainerState();
 }
 
-class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
+class CustomCurvedContainerState extends State<CustomCurvedContainer> {
   final NotificationService _notificationService = NotificationService();
   bool _notificationsEnabled = false;
   TimeOfDay _selectedTime = const TimeOfDay(hour: 22, minute: 0);
@@ -36,9 +35,11 @@ class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
   @override
   void initState() {
     super.initState();
-    _notificationsEnabled = _settingsBox.get('notificationsEnabled', defaultValue: false);
+    _notificationsEnabled =
+        _settingsBox.get('notificationsEnabled', defaultValue: false);
     final storedHour = _settingsBox.get('notificationHour', defaultValue: 22);
-    final storedMinute = _settingsBox.get('notificationMinute', defaultValue: 0);
+    final storedMinute =
+        _settingsBox.get('notificationMinute', defaultValue: 0);
     _selectedTime = TimeOfDay(hour: storedHour, minute: storedMinute);
   }
 
@@ -83,7 +84,14 @@ class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
                         _settingsBox.put('notificationsEnabled', value);
                       });
                       if (value) {
-                        await _notificationService.requestExactAlarmPermission();
+                        await _notificationService
+                            .requestExactAlarmPermission();
+                        await _notificationService.scheduleDailyNotification(
+                          hour: _selectedTime.hour,
+                          minute: _selectedTime.minute,
+                        );
+                      } else {
+                        await _notificationService.cancelAllNotifications();
                       }
                     },
                   ),
@@ -163,67 +171,58 @@ class _CustomCurvedContainerState extends State<CustomCurvedContainer> {
   Widget build(BuildContext context) {
     final greetings = _getGreeting();
 
-    return CurvedContainer(
-      height: widget.height / 2.9,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: widget.height * 0.055,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            widget.isHome
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        widget.isHome
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('$greetings,',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(widget.name,
-                                style: Theme.of(context).textTheme.bodyLarge),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: _showNotificationDialog,
-                        icon: const Icon(
-                          Icons.notifications,
-                          color: AppColors.white,
-                        ),
-                      )
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Visibility(
-                        visible: widget.isPop,
-                        child: IconButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ),
-                      Text(widget.pageName,
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      const Icon(
-                        Icons.more_horiz,
-                        color: AppColors.white,
+                      Text('$greetings,',
+                          style: Theme.of(context).textTheme.bodyMedium),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(widget.name,
+                            style: Theme.of(context).textTheme.bodyLarge),
                       ),
                     ],
                   ),
-          ],
-        ),
-      ),
+                  IconButton(
+                    onPressed: _showNotificationDialog,
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: AppColors.white,
+                    ),
+                  )
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: widget.isPop,
+                    child: IconButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+                  Text(widget.pageName,
+                      style: Theme.of(context).textTheme.bodyLarge),
+                  const Icon(
+                    Icons.more_horiz,
+                    color: AppColors.white,
+                  ),
+                ],
+              ),
+      ],
     );
   }
 }

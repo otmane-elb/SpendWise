@@ -13,7 +13,6 @@ import 'package:spendwise/views/widgets/custom_button.dart';
 import '../../core/models/transaction_model/transaction_model.dart';
 import '../../core/providers/transaction_provider.dart';
 import '../../utils/extentions/image_managment.dart';
-import '../home/widgets/custom_curved_container.dart';
 import '../widgets/custom_drop_down.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/icon_display.dart';
@@ -39,30 +38,18 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: CustomCurvedContainer(
-              height: height,
-              pageName: 'Add Transaction',
-              isHome: false,
-              isPop: true,
-            ),
-          ),
-          Positioned(
-            top: height * 0.15,
-            left: 20,
-            right: 20,
-            child: Container(
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: Text('Add Transaction',
+            style: Theme.of(context).textTheme.bodyLarge),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              height: height * .76,
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -226,7 +213,7 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
                                     .read(transactionProvider.notifier)
                                     .addTransaction(transaction);
 
-                                context.pop();
+                                if (context.mounted) context.pop();
                               }
                             },
                             text: 'Save',
@@ -238,8 +225,8 @@ class AddTransactionState extends ConsumerState<AddTransaction> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

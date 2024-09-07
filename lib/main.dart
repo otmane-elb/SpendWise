@@ -7,7 +7,7 @@ import 'views/app/app_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); 
+  await Firebase.initializeApp();
   await Hive.initFlutter();
   final notificationService = NotificationService();
   await notificationService.init();

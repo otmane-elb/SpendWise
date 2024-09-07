@@ -26,28 +26,64 @@ class HomeScreen extends ConsumerWidget {
       ref.read(financialDataProvider.notifier).updateTransactions(next);
     });
 
+    // Calculate total balance, income, and expense across all months
+    double totalBalance = 0;
+    double totalIncome = 0;
+    double totalExpense = 0;
+
+    financialData.forEach((month, data) {
+      totalBalance += data.balance;
+      totalIncome += data.income;
+      totalExpense += data.expense;
+    });
+
+    // Initialize PageController with the initial page set to the last page
+    final PageController pageController =
+        PageController(initialPage: financialData.length);
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: CustomCurvedContainer(
+          height: height,
+          name: 'Dear User',
+        ),
+      ),
       body: IndexedStack(
         index: selectedIndex,
         children: [
           Column(
             children: [
-              Stack(
-                children: [
-                  CustomCurvedContainer(
-                    height: height,
-                    name: 'Dear User',
+              if (financialData.isNotEmpty)
+                SizedBox(
+                  height: 220,
+                  child: PageView.builder(
+                    controller: pageController, // Set the controller
+                    itemCount:
+                        financialData.length + 1, // +1 for the summary card
+                    itemBuilder: (context, index) {
+                      if (index < financialData.length) {
+                        // Regular month cards
+                        final monthKey = financialData.keys.elementAt(index);
+                        final monthData = financialData[monthKey]!;
+                        return CreditCard(
+                          balance: monthData.balance,
+                          income: monthData.income,
+                          expense: monthData.expense,
+                          month: monthKey,
+                        );
+                      } else {
+                        // Summary card for all months
+                        return CreditCard(
+                          balance: totalBalance,
+                          income: totalIncome,
+                          expense: totalExpense,
+                          month: 'Total', // Label for the summary card
+                        );
+                      }
+                    },
                   ),
-                  Positioned.fill(
-                    child: CreditCard(
-                      height: height,
-                      balance: financialData.balance,
-                      income: financialData.income,
-                      expense: financialData.expense,
-                    ),
-                  ),
-                ],
-              ),
+                ),
               Expanded(
                 child: TransactionHistory(
                   transactions: transactions,

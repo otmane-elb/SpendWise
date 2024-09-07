@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,7 +25,31 @@ const Map<String, IconData> iconMap = {
   'mugSaucer': FontAwesomeIcons.mugSaucer,
   'bus': FontAwesomeIcons.bus,
   'heart': FontAwesomeIcons.heart,
-  'shirt': FontAwesomeIcons.shirt
+  'shirt': FontAwesomeIcons.shirt,
+  'hospital': FontAwesomeIcons.hospital,
+  'medkit': FontAwesomeIcons.medkit,
+  'pharmacy': FontAwesomeIcons.prescriptionBottleAlt,
+  'gym': FontAwesomeIcons.dumbbell,
+  'movie': FontAwesomeIcons.film,
+  'gift': FontAwesomeIcons.gift,
+  'taxi': FontAwesomeIcons.taxi,
+  'plane': FontAwesomeIcons.plane,
+  'hotel': FontAwesomeIcons.hotel,
+  'cocktail': FontAwesomeIcons.cocktail,
+  'coffee': FontAwesomeIcons.coffee,
+  'music': FontAwesomeIcons.music,
+  'baby': FontAwesomeIcons.baby,
+  'pet': FontAwesomeIcons.paw,
+  'bicycle': FontAwesomeIcons.bicycle,
+  'tools': FontAwesomeIcons.toolbox,
+  'laptop': FontAwesomeIcons.laptop,
+  'shoppingBag': FontAwesomeIcons.shoppingBag,
+  'tshirt': FontAwesomeIcons.tshirt,
+  'hamburger': FontAwesomeIcons.hamburger,
+  'pizza': FontAwesomeIcons.pizzaSlice,
+  'couch': FontAwesomeIcons.couch,
+  'wineGlass': FontAwesomeIcons.wineGlass,
+  'beer': FontAwesomeIcons.beer,
 };
 
 IconData? getIconDataFromString(String? iconString) {

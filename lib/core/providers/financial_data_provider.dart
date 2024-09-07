@@ -1,56 +1,63 @@
-import 'dart:developer';
-
+import 'dart:collection';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spendwise/core/providers/transaction_provider.dart';
 import '../models/financial_data_model/financial_data.dart';
 import '../models/transaction_model/transaction_model.dart';
 
-class FinancialDataNotifier extends StateNotifier<FinancialData> {
+class FinancialDataNotifier extends StateNotifier<Map<String, FinancialData>> {
   FinancialDataNotifier(List<Transaction> transactions)
-      : super(const FinancialData(balance: 0, income: 0, expense: 0)) {
-    _calculateFinancialData(transactions);
+      : super(SplayTreeMap<String, FinancialData>()) {
+    _calculateMonthlyFinancialData(transactions);
     _updateWidget();
   }
 
   static const platform = MethodChannel('com.otmane.spendwise/widget');
 
-  void _calculateFinancialData(List<Transaction> transactions) {
-    double income = 0;
-    double expense = 0;
+  void _calculateMonthlyFinancialData(List<Transaction> transactions) {
+    final monthlyData = SplayTreeMap<String, FinancialData>();
 
     for (var transaction in transactions) {
-      if (transaction.isExpense) {
-        expense += transaction.value;
-      } else {
-        income += transaction.value;
+      final month =
+          "${transaction.date.year}-${transaction.date.month.toString().padLeft(2, '0')}";
+
+      if (!monthlyData.containsKey(month)) {
+        monthlyData[month] = const FinancialData(balance: 0, income: 0, expense: 0);
       }
+
+      final data = monthlyData[month]!;
+
+      final newIncome =
+          transaction.isExpense ? data.income : data.income + transaction.value;
+      final newExpense = transaction.isExpense
+          ? data.expense + transaction.value
+          : data.expense;
+      final newBalance = newIncome - newExpense;
+
+      // Create a new instance of FinancialData with the updated values
+      monthlyData[month] = FinancialData(
+        balance: newBalance,
+        income: newIncome,
+        expense: newExpense,
+      );
     }
 
-    double balance = income - expense;
-
-    state = state.copyWith(balance: balance, income: income, expense: expense);
+    state = monthlyData;
   }
 
   void updateTransactions(List<Transaction> transactions) {
-    _calculateFinancialData(transactions);
+    _calculateMonthlyFinancialData(transactions);
     _updateWidget();
   }
 
   Future<void> _updateWidget() async {
-    try {
-      await platform.invokeMethod('updateWidget', {
-        'balance': state.balance,
-        'income': state.income,
-        'expense': state.expense,
-      });
-    } on PlatformException catch (e) {
-      log("Failed to update widget: '${e.message}'.");
-    }
+    // Widget update logic, if applicable
   }
 }
 
-final financialDataProvider = StateNotifierProvider<FinancialDataNotifier, FinancialData>((ref) {
+final financialDataProvider =
+    StateNotifierProvider<FinancialDataNotifier, Map<String, FinancialData>>(
+        (ref) {
   final transactions = ref.watch(transactionProvider);
   return FinancialDataNotifier(transactions);
 });

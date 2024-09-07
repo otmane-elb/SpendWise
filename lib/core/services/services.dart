@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -57,6 +56,10 @@ class NotificationService {
     } else {
       requestExactAlarmPermission();
     }
+  }
+
+  Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   Future<bool> checkExactAlarmPermission() async {

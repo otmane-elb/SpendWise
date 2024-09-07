@@ -69,6 +69,7 @@ class ThemesController {
         ),
       ),
       appBarTheme: const AppBarTheme(
+        toolbarHeight: 80,
         surfaceTintColor: Colors.white,
         color: AppColors.white,
         titleTextStyle: TextStyle(
@@ -78,7 +79,7 @@ class ThemesController {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+            bottom: Radius.circular(20),
           ),
         ),
       ),

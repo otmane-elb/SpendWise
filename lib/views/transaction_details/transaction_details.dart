@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:spendwise/core/models/transaction_model/transaction_model.dart';
 import 'package:spendwise/utils/extentions/format_currency.dart';
 import 'package:spendwise/views/themes/app_colors.dart';
@@ -15,38 +14,16 @@ class TransactionDetails extends StatelessWidget {
     final iconData = getIconDataFromString(transaction.icon);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: Text(
+          'Transacion Details',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 200,
-              decoration:
-                  const BoxDecoration(color: AppColors.primaryLightColor),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  Text(
-                    'Transacion Details',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  const Icon(
-                    Icons.more_horiz,
-                    color: AppColors.white,
-                    size: 35,
-                  )
-                ],
-              ),
-            ),
             const SizedBox(
               height: 30,
             ),
@@ -142,51 +119,54 @@ class TransactionDetails extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '^',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge!
-                            .copyWith(color: AppColors.black),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        child: transaction.isExpense
-                            ? const Text(
-                                'Expense',
-                                style: TextStyle(color: AppColors.red),
-                              )
-                            : const Text(
-                                'Income',
-                                style: TextStyle(color: AppColors.primaryColor),
-                              ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        FormatStyles().formatDate(transaction.date),
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: AppColors.black),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        transaction.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: AppColors.black),
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '^',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(color: AppColors.black),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          child: transaction.isExpense
+                              ? const Text(
+                                  'Expense',
+                                  style: TextStyle(color: AppColors.red),
+                                )
+                              : const Text(
+                                  'Income',
+                                  style:
+                                      TextStyle(color: AppColors.primaryColor),
+                                ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          FormatStyles().formatDate(transaction.date),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(color: AppColors.black),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          transaction.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(color: AppColors.black),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

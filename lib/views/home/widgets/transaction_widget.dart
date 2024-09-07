@@ -36,19 +36,24 @@ class TransactionWidget extends StatelessWidget {
             const SizedBox(
               width: 20,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(transaction.title,
-                    style: Theme.of(context).textTheme.titleLarge),
-                Text(
-                  FormatStyles().formatDate(transaction.date),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.greySeeAll),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    maxLines: 1,
+                  ),
+                  Text(
+                    FormatStyles().formatDate(transaction.date),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: AppColors.greySeeAll),
+                  ),
+                ],
+              ),
             ),
             const Expanded(child: SizedBox()),
             transaction.isExpense

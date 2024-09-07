@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spendwise/views/widgets/icon_display.dart';
 
 import '../../themes/app_colors.dart';
 
@@ -15,30 +15,7 @@ class IconSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icons = [
-      FontAwesomeIcons.house,
-      FontAwesomeIcons.utensils,
-      FontAwesomeIcons.cartShopping,
-      FontAwesomeIcons.gasPump,
-      FontAwesomeIcons.lightbulb,
-      FontAwesomeIcons.water,
-      FontAwesomeIcons.mobileScreenButton,
-      FontAwesomeIcons.creditCard,
-      FontAwesomeIcons.internetExplorer,
-      FontAwesomeIcons.car,
-      FontAwesomeIcons.dollarSign,
-      FontAwesomeIcons.moneyBill,
-      FontAwesomeIcons.school,
-      FontAwesomeIcons.tv,
-      FontAwesomeIcons.wifi,
-      FontAwesomeIcons.bell,
-      FontAwesomeIcons.appleWhole,
-      FontAwesomeIcons.book,
-      FontAwesomeIcons.mugSaucer,
-      FontAwesomeIcons.bus,
-      FontAwesomeIcons.heart,
-      FontAwesomeIcons.shirt
-    ];
+    final icons = iconMap.values.toList();
 
     return GridView.builder(
       shrinkWrap: true,
